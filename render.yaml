@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: helix-backend
+    runtime: python
+    rootDir: helix_backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+      - key: FRONTEND_ORIGINS
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: UPLOAD_DIR
+        value: uploads
+      - key: MODEL_PATH
+        value: models/emergency_health_xgb.joblib
+      - key: HOSPITAL_CODE
+        value: HLX-001
+      - key: HOSPITAL_NAME
+        value: Helix Central Hospital
